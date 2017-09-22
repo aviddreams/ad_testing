@@ -123,3 +123,74 @@ div.col-sm-9 div {
 }
 /*font-family: 'PT Serif', serif;
 font-family: 'Alfa Slab One', cursive;*/
+
+
+
+/**
+ * ADDITIONAL STYLES
+ */
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.link-list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.link-list.article-link-container {
+  text-align: left;
+}
+
+.article-link:hover {
+  background: lightgray;
+}
+
+.article-link {
+  color: black;
+}
+
+.accordion-title-link {
+  color: black;
+}
+
+.accordion-title-link:hover {
+  text-decoration: none;
+  color: darkgrey;
+}
+
+#article-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#article-info-author-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#article-info-company {
+  font-style: italic;
+}
+
+#article-info-author, #article-info-date {
+  font-weight: bold;
+}
+
+.content-row {
+  margin: 2% 0 0 0;
+  padding: 0;
+}
+
+#termset {
+  margin-top: 2%;
+}

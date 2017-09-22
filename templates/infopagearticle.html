@@ -1,71 +1,143 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="container">
-    <div class="categorytitle">
-      <hr>
-      <p>{{category}}</p>
-      <hr>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="panel-group" id="accordion">
-          <div class="panel panel-default">
-            {% for company in companies %}
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href={{"#"+category+"-"+company}}>{{company}}</a>
-                </h4>
-              </div>
-              <div id={{category+"-"+company}} class="panel-collapse collapse ">
-                <div class="panel-body">
-                  <table class="table">
-                  {% for article in env[company] %}
-                    <tr>
-                      <td>
-                        <a href="/{{category}}/{{ article }}" class="list-group-item">{{ env[company][article] }}</a>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                  </table>
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-      <div class="col-md-8">
-        <div class="row">
-          <table>
-            <tbody>
-              <tr><td data-label="article-row-title"><h3>{{ articleresults['Title'] }}</h3></td></tr>
-              <tr><td><a href="{{ articleresults['URL']}}">Link to original link</a></td></tr>
-              <tr><td><p>Published Time: </p>{{ articleresults['StoryTimePublished'] }}</td></tr>
-              <tr><td><p>Company: {{ articleresults['Company'] }} - Author: {{ articleresults['Author'] }}</p></td></tr>
-              <tr><td>{{ articleresults['StorySummarized'] }}</td></tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="container">
 
-        <div class="row" id='termset'>
-          <nav class="col-sm-3" id="myScrollspy">
-            <ul class='nav nav-pills nav-stacked'>
-              {% for key in terms.keys() %}
-              <li><a href="#{{key}}">{{ key }}</a></li>
-              {% endfor %}
-            </ul>
-          </nav>
-          <div class="col-sm-9">
-            {% for key in terms.keys() %}
-              <div id="{{key}}" class='termList'>    
-                <h3>{{key}}</h3>
-                <p>{{ terms[key] }}</p>
-              </div>
-            {% endfor %}
-          </div>
+
+        <div class="row content-row">
+
+            <div class="col-md-8">
+
+                <div class="row" style="padding: 0">
+
+                    <div class="card">
+                        <div class="card-header" id="article-info-header">
+                            <div id="article-info-author-container">
+                                <span id="article-info-company">
+                                    {{ articleresults['Company'] }}
+                                </span>
+                                <span id="article-info-author">
+                                    {{ articleresults['Author'] }}
+                                </span>
+                            </div>
+                            <span id="article-info-date">
+                                {{ articleresults['StoryTimePublished'] }}
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            <h3 class="card-title">{{ articleresults['Title'] }}</h3>
+                            <p class="card-text">
+                                {{ articleresults['StorySummarized'] }}
+                            </p>
+                            <a class="card-link" href="{{ articleresults['URL'] }}" style="float: right">Link to original link</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" id='termset'>
+
+                    <nav class="col-md-3" id="myScrollspy">
+                        <ul class="nav nav-pills flex-column">
+                            {% for key in terms.keys() %}
+                                <li class="nav-item"><a href="#{{ key }}" class="nav-link">{{ key }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <div class="col-md-9">
+                        {% for key in terms.keys() %}
+                            <div id="{{ key }}" class="termList">
+                                <h3>{{ key }}</h3>
+                                <p>{{ terms[key] }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+
+
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                Category: {{ category }}
+                            </h3>
+                            <div class="card-block">
+                                More articles from this category below.
+                            </div>
+                        </div>
+                    </div>
+
+                    {% for company in companies %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="{{ category+"-"+company+"-heading" }}">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="{{ "#"+category+"-"+company }}"
+                                       aria-expanded="false" aria-controls="collapseOne"
+                                       class="accordion-title-link">
+                                        {{ company }}
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="{{ category+"-"+company }}" class="collapse" role="tabpanel"
+                                 aria-labelledby="{{ category+"-"+company+"-heading" }}">
+                                <div class="card-block">
+                                    <div class="link-list">
+                                        {% for article in env[company] %}
+                                            <div class="article-link-container">
+
+                                                <a href="/{{ category }}/{{ article }}"
+                                                   class="list-group-item article-link">{{ env[company][article] }}</a>
+                                            </div>
+
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+
+                    <!--
+                <div class="list-group" id="accordion">
+
+                    <div class="card">
+                        {% for company in companies %}
+                            <div class="card-header">
+                                <h4 class="card-title company-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href={{ "#"+category+"-"+company }}>{{ company }}</a>
+                                </h4>
+                            </div>
+                            <div id='{{ category+"-"+company }}' class="card-collapse collapse ">
+                                <div class="card-block">
+                                    <table class="table">
+                                        {% for article in env[company] %}
+                                            <tr>
+                                                <td>
+                                                    <a href="/{{ category }}/{{ article }}"
+                                                       class="list-group-item">{{ env[company][article] }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            -->
+
+                </div>
+
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <hr>
+    <hr>
 {% endblock %}
