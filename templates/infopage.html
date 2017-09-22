@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="container">
+    <div class="categorytitle">
+      <hr>
+      <p>{{category}}</p>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            {% for company in companies %}
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href={{"#"+category+"-"+company}}>{{company}}</a>
+                </h4>
+              </div>
+              <div id={{category+"-"+company}} class="panel-collapse collapse ">
+                <div class="panel-body">
+                  <table class="table">
+                  {% for article in env[company] %}
+                    <tr>
+                      <td>
+                        <a href="/{{category}}/{{ article }}" class="list-group-item">{{ env[company][article] }}</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </table>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+{% endblock %}

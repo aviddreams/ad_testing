@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="container">
+    <div class="categorytitle">
+      <hr>
+      <p>{{category}}</p>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            {% for company in companies %}
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href={{"#"+category+"-"+company}}>{{company}}</a>
+                </h4>
+              </div>
+              <div id={{category+"-"+company}} class="panel-collapse collapse ">
+                <div class="panel-body">
+                  <table class="table">
+                  {% for article in env[company] %}
+                    <tr>
+                      <td>
+                        <a href="/{{category}}/{{ article }}" class="list-group-item">{{ env[company][article] }}</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </table>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <table>
+            <tbody>
+              <tr><td data-label="article-row-title"><h3>{{ articleresults['Title'] }}</h3></td></tr>
+              <tr><td><a href="{{ articleresults['URL']}}">Link to original link</a></td></tr>
+              <tr><td><p>Published Time: </p>{{ articleresults['StoryTimePublished'] }}</td></tr>
+              <tr><td><p>Company: {{ articleresults['Company'] }} - Author: {{ articleresults['Author'] }}</p></td></tr>
+              <tr><td>{{ articleresults['StorySummarized'] }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row" id='termset'>
+          <nav class="col-sm-3" id="myScrollspy">
+            <ul class='nav nav-pills nav-stacked'>
+              {% for key in terms.keys() %}
+              <li><a href="#{{key}}">{{ key }}</a></li>
+              {% endfor %}
+            </ul>
+          </nav>
+          <div class="col-sm-9">
+            {% for key in terms.keys() %}
+              <div id="{{key}}" class='termList'>    
+                <h3>{{key}}</h3>
+                <p>{{ terms[key] }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+{% endblock %}
